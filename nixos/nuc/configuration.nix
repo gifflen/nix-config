@@ -16,6 +16,7 @@ in
     inputs.nixos-hardware.nixosModules.common-gpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
@@ -84,6 +85,14 @@ in
       openssh.authorizedKeys.keys = authKeys.authKeys;
       extraGroups = [ "wheel" "networkmanager" "docker" ];
     };
+  };
+
+  home-manager = {
+    extraSpecialArts = { inherit inputs; };
+    users = {
+      gifflen = import ../../home-manager/gifflen/home.nix;
+    };
+
   };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
