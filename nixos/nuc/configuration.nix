@@ -88,7 +88,7 @@ in
   };
 
   home-manager = {
-    extraSpecialArts = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs; };
     users = {
       gifflen = import ../../home-manager/gifflen/home.nix;
     };
