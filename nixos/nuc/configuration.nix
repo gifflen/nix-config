@@ -15,6 +15,7 @@ in
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-gpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
+    inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
