@@ -6,7 +6,6 @@
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
-    outputs.nixosModules.authKeys
 
     # Or modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-cpu-amd
@@ -19,6 +18,7 @@
     ./hardware-configuration.nix
     ./filesystems.nix
     ./networking.nix
+    ./authKeys.nix
   ];
 
   nixpkgs = {
@@ -75,11 +75,11 @@
   users.users = {
     # FIXME: Replace with your username
     root = {
-      openssh.authorizedKeys.keys = authKeys.keys;
+      openssh.authorizedKeys.keys = keys;
     };
     gifflen = {
       isNormalUser = true;
-      openssh.authorizedKeys.keys = authKeys.keys;
+      openssh.authorizedKeys.keys = keys;
 #      openssh.authorizedKeys.keys = [
 #
 #        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCgWlHfJrGw6xYcVRSklSOLLykTDrkIEc0VU8lCc7uQK6DbLFFM5s3RSg11g6sDoQ6G3unFVQmBHL/Iq/QhzGfR7/2SgQjPp7fjJCHQXFpRgShqC6MP5gOL5LyfL+xGDKzaw2ZQatJhp8jA/KHpJeHW6lVdDZAeNC/mDr54VBimjc7CNgCkvGJ+/dJfKhuMZ76FU0nrR+8f9nrPQeRyE0AJP42W+XQBYmXebcJrzh3wiLRXzNVSl7uj2N4Jt3ovI0qGAuJ3ko7eyA5eJawnU5m7lNIXnw8Vj2qElz1yHo7TLlmOX4gb05yG4o466f5Hm2zo+Pv6PNR0tk41coC0RFKE6vjrPaQfzDAOMQ+vgdSUTk+D2QHqjlh4sRRPOe3IijkmLG6bRSTnI9sBu6DhQsNYFErvYBvicurGZ9rr5fbXh2Yr3bFK6qFwwwSwTv5eIW3JmwmHJilaNDDJwZ2rgnnsOycyFFs+tY/wd8V8EssIiu5mO3wJPNZH55TvVdp5SSE= gifflen@werkwerk"
