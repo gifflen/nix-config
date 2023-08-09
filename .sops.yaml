@@ -1,0 +1,42 @@
+# This example uses YAML anchors which allows reuse of multiple keys
+# without having to repeat yourself.
+# Also see https://github.com/Mic92/dotfiles/blob/master/nixos/.sops.yaml
+# for a more complex example.
+keys:
+  - &admin_gifflen age1es2sneqg0gnn0ny5z7qzrx745nfs3kruuwx5yrgmvxc5377hfypq3nr6f3
+  - &admin_test age12zlz6lvcdk6eqaewfylg35w0syh58sm7gh53q5vvn7hd7c6nngyseftjxl
+  - &server_nuc age1hs8d2dplweqtknwjmk0yckl94ey20yx69tqj7vckcxnkwf7gag2qyym8q5
+  - &server_pi1 age1tc3ltr5degknt0xxuy7ht2eggepqt2as4f8fj6cfmf9ym2mgd3kqna4nfp
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *admin_gifflen
+      - *admin_test
+  - path_regex: nixos/nuc/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_gifflen
+          - *admin_test
+          - *server_nuc
+  - path_regex: nixos/pi1/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_gifflen
+          - *admin_test
+          - *server_pi1
+  - path_regex: nixos/modules/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_gifflen
+          - *admin_test
+          - *server_nuc
+          - *server_pi1
+  - path_regex: modules/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_gifflen
+          - *admin_test
+          - *server_nuc
+          - *server_pi1

@@ -24,6 +24,8 @@ in
     ./filesystems.nix
     ./networking.nix
     ./boot.nix
+    ../modules/sops.nix
+    ../modules/tailscale.nix
 
   ];
 
