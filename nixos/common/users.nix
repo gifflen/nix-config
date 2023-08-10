@@ -1,4 +1,4 @@
-{...}:
+{ ... }:
 let
   authKeys = import ./authKeys.nix;
 in
@@ -17,9 +17,9 @@ in
   security.sudo.wheelNeedsPassword = false;
 
 
-nix.settings.trusted-users = [
-        "root"
-        "gifflen"
-        "@wheel"
-      ];
+  nix.settings.trusted-users = [
+    "root"
+    "gifflen"
+    "@wheel"
+  ];
 }
