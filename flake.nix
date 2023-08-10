@@ -20,7 +20,6 @@
       url = "github:nix-community/nixpkgs-fmt/v1.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    colmena.url = "github:zhaofengli/colmena";
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
@@ -29,23 +28,13 @@
       inherit (self) outputs;
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
-        "i686-linux"
+        #        "i686-linux"
         "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
+        #        "aarch64-darwin"
+        #        "x86_64-darwin"
       ];
     in
     rec {
-
-      colmena = {
-        meta = {
-          nixpkgs = import nixpkgs {
-            system = "x86_64-linux";
-            overlays = [ ];
-          };
-        };
-      };
-
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
       packages = forAllSystems (system:
