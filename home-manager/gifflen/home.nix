@@ -53,6 +53,7 @@
     pkgs.iotop
     pkgs.age
     pkgs.age-plugin-yubikey
+    pkgs.nerdfonts
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

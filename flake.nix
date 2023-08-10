@@ -20,6 +20,8 @@
       url = "github:nix-community/nixpkgs-fmt/v1.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    colmena.url = "github:zhaofengli/colmena";
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
@@ -34,6 +36,16 @@
       ];
     in
     rec {
+
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+            overlays = [ ];
+          };
+        };
+      };
+
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
       packages = forAllSystems (system:
@@ -89,5 +101,16 @@
           ];
         };
       };
+
+      deploy.nodes.nuc = {
+        hostname = "nuc";
+        profiles.system = {
+          user = "root";
+          sshUser = "gifflen";
+          hostname = "nuc";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nuc;
+        };
+      };
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
     };
 }
