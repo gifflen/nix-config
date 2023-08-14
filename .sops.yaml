@@ -7,6 +7,7 @@ keys:
   - &admin_test age12zlz6lvcdk6eqaewfylg35w0syh58sm7gh53q5vvn7hd7c6nngyseftjxl
   - &server_nuc age1hs8d2dplweqtknwjmk0yckl94ey20yx69tqj7vckcxnkwf7gag2qyym8q5
   - &server_pi1 age1tc3ltr5degknt0xxuy7ht2eggepqt2as4f8fj6cfmf9ym2mgd3kqna4nfp
+  - &server_pi3 age1sqgyteee9lqxhchdphynj7mawp69mkuy08qtva498rkg5gx99qcsrm55vw
 
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
@@ -26,13 +27,20 @@ creation_rules:
           - *admin_gifflen
           - *admin_test
           - *server_pi1
-  - path_regex: nixos/modules/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: nixos/pi1/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_gifflen
+          - *admin_test
+          - *server_pi3
+  - path_regex: nixos/common/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
           - *admin_gifflen
           - *admin_test
           - *server_nuc
           - *server_pi1
+          - *server_pi3
   - path_regex: modules/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
@@ -40,3 +48,4 @@ creation_rules:
           - *admin_test
           - *server_nuc
           - *server_pi1
+          - *server_pi3
