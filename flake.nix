@@ -135,6 +135,7 @@
           nodeSpecialArgs = builtins.mapAttrs (name: value: value._module.specialArgs) conf;
         };
         nuc = {name, nodes, pkgs, ...}: {
+          boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
           deployment = {
             targetHost = "nuc";
             targetUser = "gifflen";
