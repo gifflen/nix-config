@@ -67,6 +67,13 @@
             ./nixos/nuc/configuration.nix
           ];
         };
+        pi3 = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main nixos configuration file <
+            ./nixos/pi3/configuration.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -74,6 +81,14 @@
       homeConfigurations = {
         "gifflen@werkwerk" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main home-manager configuration file <
+            ./home-manager/gifflen/home.nix
+          ];
+        };
+        "gifflen@pi" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <
@@ -106,7 +121,7 @@
             user = "root";
             sshUser = "gifflen";
             hostname = "192.168.1.143";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nuc;
+            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.nuc;
           };
         };
       };

@@ -10,7 +10,7 @@
 
     # Or modules from other flakes (such as nixos-hardware):
 
-    inputs.nixos-hardware.nixosModules.raspberry-pi."4"
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
 
@@ -46,7 +46,7 @@
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
+#  hardware.raspberry-pi."4".fkms-3d.enable = true;
 
 
 }
