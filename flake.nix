@@ -115,15 +115,15 @@
             path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nuc;
           };
         };
-        pi3 = {
-          hostname = "192.168.1.143";
-          profiles.system = {
-            user = "root";
-            sshUser = "gifflen";
-            hostname = "192.168.1.143";
-            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.nuc;
-          };
-        };
+#        pi3 = {
+#          hostname = "192.168.1.143";
+#          profiles.system = {
+#            user = "root";
+#            sshUser = "gifflen";
+#            hostname = "192.168.1.143";
+#            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.nuc;
+#          };
+#        };
       };
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
