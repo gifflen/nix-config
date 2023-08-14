@@ -46,6 +46,7 @@
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  # This is failing for some reason
 #  hardware.raspberry-pi."4".fkms-3d.enable = true;
 
 
