@@ -21,11 +21,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deploy-rs.url = "github:serokell/deploy-rs";
+    colmena.url = "github:zhaofengli/colmena";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       inherit (self) outputs;
+      conf = self.nixosConfigurations;
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
         #        "i686-linux"
@@ -125,7 +127,27 @@
 #          };
 #        };
       };
-
+      colmena = {
+        meta = {
+          description = "My personal machines";
+          nixpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+          nodeNixpkgs = builtins.mapAttrs (name: value: value.pkgs) conf;
+          nodeSpecialArgs = builtins.mapAttrs (name: value: value._module.specialArgs) conf;
+        };
+        nuc = {name, nodes, pkgs, ...}: {
+          deployment = {
+            targetHost = "nuc";
+            targetUser = "gifflen";
+          };
+        };
+        pi3 = {name, nodes, pkgs, ...}: {
+          deployment = {
+            targetHost = "192.168.1.143";
+            targetUser = "gifflen";
+          };
+          nixpks.system = "aarch64-linux";
+        };
+      } // builtins.mapAttrs (name: value: { imports = value._module.args.modules; }) conf;
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
     };
 }
