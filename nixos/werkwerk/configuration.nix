@@ -9,8 +9,7 @@
     # outputs.nixosModules.example
 
     # Or modules from other flakes (such as nixos-hardware):
-
-    inputs.nixos-hardware.nixosModules.raspberry-pi-4
+    inputs.nixos-hardware.nixosModules.framework-12th-gen-intel
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
 
@@ -18,21 +17,20 @@
     # ./users.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
-    #    ./hardware-configuration.nix
-    #    ./filesystems.nix
+    ./hardware-configuration.nix
+    ./filesystems.nix
     ./networking.nix
     ./boot.nix
+    ./gui.nix
     ../common/common.nix
     ../common/sops.nix
     ../common/tailscale.nix
     ../common/nix.nix
     ../common/nixpkgs.nix
     ../common/users.nix
-    ../common/pi/hardware-configuration.nix
+    ../common/yubikey.nix
 
   ];
-
-
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -44,10 +42,12 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
 
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  environment.systemPackages = with pkgs; [
+    yubioath-flutter
+    keybase-gui
+  ];
 
-  # This is failing for some reason
-  #  hardware.raspberry-pi."4".fkms-3d.enable = true;
+  services.pcscd.enable = true;
 
 
 }

@@ -78,6 +78,13 @@
             ./nixos/pi3/configuration.nix
           ];
         };
+        werkwerk = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main nixos configuration file <
+            ./nixos/werkwerk/configuration.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -119,15 +126,15 @@
             path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nuc;
           };
         };
-#        pi3 = {
-#          hostname = "192.168.1.143";
-#          profiles.system = {
-#            user = "root";
-#            sshUser = "gifflen";
-#            hostname = "192.168.1.143";
-#            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.nuc;
-#          };
-#        };
+        #        pi3 = {
+        #          hostname = "192.168.1.143";
+        #          profiles.system = {
+        #            user = "root";
+        #            sshUser = "gifflen";
+        #            hostname = "192.168.1.143";
+        #            path = inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.nuc;
+        #          };
+        #        };
       };
       colmena = {
         meta = {
@@ -136,7 +143,7 @@
           nodeNixpkgs = builtins.mapAttrs (name: value: value.pkgs) conf;
           nodeSpecialArgs = builtins.mapAttrs (name: value: value._module.specialArgs) conf;
         };
-        nuc = {name, nodes, pkgs, ...}: {
+        nuc = { name, nodes, pkgs, ... }: {
           boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
           deployment = {
             targetHost = "nuc";
@@ -144,13 +151,21 @@
 
           };
         };
-        pi3 = {name, nodes, pkgs, ...}: {
+        pi3 = { name, nodes, pkgs, ... }: {
           deployment = {
             targetHost = "192.168.1.143";
             targetUser = "gifflen";
             buildOnTarget = true;
           };
           nixpks.system = "aarch64-linux";
+        };
+        werkwerk = { name, nodes, pkgs, ... }: {
+          deployment = {
+            allowLocalDeployment = true;
+            targetHost = "null";
+            #            targetUser = "gifflen";
+            #            buildOnTarget = true;
+          };
         };
       } // builtins.mapAttrs (name: value: { imports = value._module.args.modules; }) conf;
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;

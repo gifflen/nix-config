@@ -3,49 +3,66 @@
 # Also see https://github.com/Mic92/dotfiles/blob/master/nixos/.sops.yaml
 # for a more complex example.
 keys:
+  - &admin_yubi 9B31168396613EB283345DE3A89A01F521FF7004 
   - &admin_gifflen age1es2sneqg0gnn0ny5z7qzrx745nfs3kruuwx5yrgmvxc5377hfypq3nr6f3
-  - &admin_test age12zlz6lvcdk6eqaewfylg35w0syh58sm7gh53q5vvn7hd7c6nngyseftjxl
+  - &server_werkwerk age1jdcfuw258g2frvdqvgps2tuhevm3smghq2hnrfjfskl8xf3kqd5q4mxn37
   - &server_nuc age1hs8d2dplweqtknwjmk0yckl94ey20yx69tqj7vckcxnkwf7gag2qyym8q5
   - &server_pi1 age1tc3ltr5degknt0xxuy7ht2eggepqt2as4f8fj6cfmf9ym2mgd3kqna4nfp
   - &server_pi3 age1sqgyteee9lqxhchdphynj7mawp69mkuy08qtva498rkg5gx99qcsrm55vw
 
 creation_rules:
+
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-    - age:
+    - pgp:
+      - *admin_yubi
+      age:
       - *admin_gifflen
-      - *admin_test
   - path_regex: nixos/nuc/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-      - age:
+      - pgp:
+          - *admin_yubi
+        age:
           - *admin_gifflen
-          - *admin_test
           - *server_nuc
   - path_regex: nixos/pi1/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-      - age:
+      - pgp:
+          - *admin_yubi
+        age:
           - *admin_gifflen
-          - *admin_test
           - *server_pi1
   - path_regex: nixos/pi1/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-      - age:
+      - pgp:
+          - *admin_yubi
+        age:
           - *admin_gifflen
-          - *admin_test
           - *server_pi3
+  - path_regex: nixos/werkwerk/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *admin_yubi
+        age:
+          - *admin_gifflen
+          - *server_werkwerk
   - path_regex: nixos/common/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-      - age:
+      - pgp:
+          - *admin_yubi
+        age:
           - *admin_gifflen
-          - *admin_test
           - *server_nuc
           - *server_pi1
           - *server_pi3
+          - *server_werkwerk
   - path_regex: modules/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-      - age:
+      - pgp:
+          - *admin_yubi
+        age:
           - *admin_gifflen
-          - *admin_test
           - *server_nuc
           - *server_pi1
           - *server_pi3
+          - *server_werkwerk

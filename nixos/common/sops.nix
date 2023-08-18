@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   sops = {
     defaultSopsFile = ./secrets.yaml;
     age = {
@@ -6,4 +6,9 @@
     };
     gnupg.sshKeyPaths = [ ];
   };
+
+  environment.systemPackages = with pkgs; [
+    sops
+  ];
+
 }

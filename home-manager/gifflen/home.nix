@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, headless ? true, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -54,6 +54,7 @@
     pkgs.age-plugin-yubikey
     #    pkgs.nerdfonts
     pkgs.terraform
+    pkgs.sops
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -110,7 +111,11 @@
   };
   programs.go.enable = true;
   programs.gpg.enable = true;
+  programs.gpg.scdaemonSettings = {
+    disable-ccid = true;
+  };
   programs.jq.enable = true;
+
   #  programs.k9s.enable = true;
   programs.nix-index.enable = true;
   programs.pls.enable = true;
@@ -121,6 +126,7 @@
     enable = true;
   };
 
+  programs.firefox.enable = true;
 
   programs.starship.enable = true;
   programs.tmux.enable = true;
@@ -139,8 +145,8 @@
     enable = true;
     enableSshSupport = true;
   };
-  #  services.keybase.enable = true;
-
+  services.keybase.enable = true;
+  services.kbfs.enable = true;
   xdg.enable = true;
 
   #  imports = [
